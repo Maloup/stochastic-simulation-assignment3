@@ -1,26 +1,30 @@
-from sklearn.metrics import mean_squared_error as MSE
 import numpy as np
 import matplotlib.pyplot as plt
 
+from helper import int_cost_lotka_volterra
 
 
-def Simulated_Annealing(s0, Cooling_schedule = "linear", Opt_function = <SE, T_start = 100, sigma = 0.1, data = (t_range, True_data)):
-    if Cooling_schedule == "linear":
-        T_sched = np.linspace(100, 0.1, 5000)
+def simulated_annealing(s0, t, P,
+    cost=int_cost_lotka_volterra, cooling_schedule="linear",
+    T_start=100, T_steps=500, sigma=0.1
+):
+    if cooling_schedule == "linear":
+        T_sched = np.linspace(T_start, 0.1, T_steps)
     state = s0
-    pred = f(state, data[0])
+    state_cost = cost(state, P, t)
 
     for T in T_sched:
-        state_new = np.random.normal(state, scale = sigma)
+        state_new = np.random.normal(state, scale=sigma)
         U = np.random.rand()
 
-        pred_new = f(state_new, data[0])
+        new_state_cost = cost(state_new, P, t)
+        threshold = np.min([
+            np.exp(-(new_state_cost - state_cost)/T),
+            1
+        ])
 
-        threshold = np.min(np.exp(-(Opt_function(data[1], pred_new) - Opt_function(data[1], pred))/T))
         if U <= threshold:
             state = state_new
-            pred = pred_new 
-        else: 
-            state = state
-    
+            state_cost = new_state_cost
+
     return state
