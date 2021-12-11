@@ -6,13 +6,13 @@ from helper import int_cost_lotka_volterra
 
 def simulated_annealing(s0, t, P,
     cost=int_cost_lotka_volterra, cooling_schedule="geometrical",
-    T_start=100, T_steps=500, sigma=0.1, alpha=1
+    T_start=100, T_steps=500, sigma=0.1, alpha=0.9
 ):
     if cooling_schedule == "geometrical":
         T_sched =  [T_start*alpha**k for k in range(T_steps)]
     if cooling_schedule == "linear":
         T_sched = np.linspace(T_start, 1e-5, T_steps)
-    if cooling_schedule == "Quadratic":
+    if cooling_schedule == "quadratic":
         T_sched = [T_start/(1 + alpha*k**2) for k in range(T_steps)]
 
     state = s0
