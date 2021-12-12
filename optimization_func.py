@@ -12,7 +12,7 @@ def simulated_annealing(s0, t, P,
         T_sched =  [T_start*alpha**k for k in range(T_steps)]
     if cooling_schedule == "linear":
         T_sched = np.linspace(T_start, 1e-5, T_steps)
-    if cooling_schedule == "Quadratic":
+    if cooling_schedule == "quadratic":
         T_sched = [T_start/(1 + alpha*k**2) for k in range(T_steps)]
 
     state = s0
