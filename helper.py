@@ -27,7 +27,7 @@ def lotka_volterra(t, ys, alpha, beta, delta, gamma):
 
 def int_cost_lotka_volterra(params, y_actual, ts, cost=mse):
     sol = solve_ivp(lotka_volterra, (ts[0], ts[-1]), y_actual[0], args=params,
-                    dense_output=True, max_step = 1e3)
-    z = sol.sol(ts)
+                    t_eval=ts, max_step = 1e3)
 
-    return cost(y_actual, z.T)
+    return cost(y_actual, sol.y.T)
+
