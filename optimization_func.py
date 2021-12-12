@@ -6,7 +6,7 @@ from helper import int_cost_lotka_volterra
 
 def simulated_annealing(s0, t, P,
     cost=int_cost_lotka_volterra, cooling_schedule="geometrical",
-    T_start=100, T_steps=500, sigma=0.1, alpha=1
+    T_start=100, T_steps=500, sigma=0.1, alpha=0.9
 ):
     if cooling_schedule == "geometrical":
         T_sched =  [T_start*alpha**k for k in range(T_steps)]
@@ -48,4 +48,4 @@ def simulated_annealing(s0, t, P,
             state_cost = new_state_cost
             n_accepted += 1
 
-    return state, n_accepted/len(T_sched)
+    return state, n_accepted/len(T_sched), state_cost
