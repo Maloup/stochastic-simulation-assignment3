@@ -17,6 +17,12 @@ def mse(y_actual, y_pred):
     return (np.linalg.norm(y_pred - y_actual, axis=1)**2).mean()
 
 
+def mae(y_actual, y_pred):
+    assert y_actual.shape == y_pred.shape, "Actual and prediction shapes mismatch"
+
+    return np.abs(y_pred - y_actual).mean()
+
+
 def lotka_volterra(t, ys, alpha, beta, delta, gamma):
     x, y = ys
     dx_dt = alpha*x - beta*x*y
