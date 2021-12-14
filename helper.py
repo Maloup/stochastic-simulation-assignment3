@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from scipy.integrate import solve_ivp
-
+from scipy.integrate import odeint
 
 def get_predator_prey_data():
     df = pd.read_csv("data/predator-prey-data.csv")
@@ -32,8 +32,6 @@ def lotka_volterra(t, ys, alpha, beta, delta, gamma):
 
 
 def int_cost_lotka_volterra(params, y_actual, ts, cost=mse):
-    sol = solve_ivp(lotka_volterra, (ts[0], ts[-1]), y_actual[0], args=params,
-                t_eval=ts, dense_output=True, max_step = 1e3)
-    z = sol.sol(ts)
+    sol = odeint(lotka_volterra, y_actual[0], ts, args=tuple(params), tfirst=True)
 
-    return cost(y_actual, z.T)
+    return cost(y_actual, sol)
