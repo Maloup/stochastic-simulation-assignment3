@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from scipy.integrate import solve_ivp
 from scipy.integrate import odeint
+from sklearn.metrics import r2_score
 
 def get_predator_prey_data():
     df = pd.read_csv("data/predator-prey-data.csv")
@@ -21,6 +22,11 @@ def mae(y_actual, y_pred):
     assert y_actual.shape == y_pred.shape, "Actual and prediction shapes mismatch"
 
     return np.abs(y_pred - y_actual).mean()
+
+def r2(y_actual, y_pred):
+    assert y_actual.shape == y_pred.shape, "Actual and prediction shapes mismatch"
+
+    return r2_score(y_actual, y_pred)
 
 
 def lotka_volterra(t, ys, alpha, beta, delta, gamma):
