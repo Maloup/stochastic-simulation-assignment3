@@ -2,3 +2,7 @@
 'T_steps_range', (30720, 233)
 'T_vary_lin', (31232, 30514)
 'T_vary_quad', (62464, 30514)
+'T_vary_geo2', (95232, 30514)
+'T_steps_range2', (93696, 233)
+'T_vary_lin2', (125952, 30514)
+'T_vary_quad2', (156672, 30514)
