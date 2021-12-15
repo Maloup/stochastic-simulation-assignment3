@@ -19,7 +19,7 @@ def simulated_annealing(s0, t, P,
     state_cost = int_cost_lotka_volterra(state, P, t, cost)
     costs = []
 
-    n = 0
+    n = 0.0000001
     n_accepted = 0
 
     for T in T_sched:
