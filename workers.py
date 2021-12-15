@@ -11,7 +11,7 @@ def vary_T_worker(q, d, T_start, t_data, P, cooling_schedule):
         _, _, cost = simulated_annealing(rv, t_data, P, T_start=T_start, T_steps=t, cooling_schedule=cooling_schedule)
         d[i].append(cost)
 
-        
+
 def vary_sigma_worker(q, d, T_start, T_steps, t_data, P, cooling_schedule):
     while True:
         try:
@@ -21,3 +21,15 @@ def vary_sigma_worker(q, d, T_start, T_steps, t_data, P, cooling_schedule):
 
         _, _, cost = simulated_annealing(rv, t_data, P, T_start=T_start, T_steps=T_steps, cooling_schedule=cooling_schedule,gamma=s)
         d[i].append(cost)
+
+def vary_rv_worker(q, d_cost, d_state, T_start, T_steps, t_data, P):
+    while True:
+        try:
+            i, rv = q.get_nowait()
+        except queue.Empty:
+            break
+
+        state, _, cost = simulated_annealing(rv, t_data, P, T_start=T_start,
+                T_steps=T_steps, cooling_schedule="quadratic", eta=0.2)
+        d_cost[i].append(cost)
+        d_state[i].append(state)
