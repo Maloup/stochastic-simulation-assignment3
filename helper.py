@@ -79,11 +79,11 @@ def remove_data_points_rand(data, n, col=0):
 
 def remove_data_points_det(data, n, col=0):
     col_data = data[:,col]
-    i = 0
+    i = len(col_data)-1
     while col_data[i] == -1:
-        i += 1
+        i -= 1
 
     for j in range(n):
-        col_data[i+j] = -1
+        col_data[i-j] = -1
 
     return data
