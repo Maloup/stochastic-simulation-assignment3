@@ -22,21 +22,25 @@ def mse_trunc(y_actual, y_pred):
     assert y_actual.shape == y_pred.shape, "Actual and prediction shapes mismatch"
 
     M = y_actual.shape[0]
+    n = 0
     cost = 0
 
     for i in range(M):
-        true_x = y_actual[i][0]
-        true_y = y_actual[i][1]
-        pred_x = y_pred[i][0]
-        pred_y = y_pred[i][1]
+        true_x, true_y = y_actual[i]
+        pred_x, pred_y = y_pred[i]
 
         if true_x != -1:
             cost += (true_x - pred_x)**2
+            n += 1
 
         if true_y != -1:
             cost += (true_y - pred_y)**2
+            n += 1
 
-    return cost/M
+    if n == 0:
+        return 0
+
+    return cost/n
 
 
 def mae(y_actual, y_pred):
@@ -58,8 +62,10 @@ def lotka_volterra(t, ys, alpha, beta, delta, gamma):
     return dx_dt, dy_dt
 
 
-def int_cost_lotka_volterra(params, y_actual, ts, cost=mse):
-    sol = odeint(lotka_volterra, y_actual[0], ts, args=tuple(params), tfirst=True)
+def int_cost_lotka_volterra(params, y_actual, ts, cost=mse, y0=None):
+    if y0 is None:
+        y0 = y_actual[0]
+    sol = odeint(lotka_volterra, y0, ts, args=tuple(params), tfirst=True)
 
     return cost(y_actual, sol)
 
