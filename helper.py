@@ -87,3 +87,9 @@ def remove_data_points_det(data, n, col=0):
         col_data[i-j] = -1
 
     return data
+
+def remove_single_data_point(data, i, col=0):
+    col_data = data[:,col]
+    col_data[i] = -1
+
+    return data
